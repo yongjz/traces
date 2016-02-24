@@ -43,7 +43,6 @@ public class LogisticsServiceImpl implements ILogisticsService {
 		if(qrcode.getQrcodeStatus().equals("00")){
 			v.setIsOpen(false);
 			//如果是第一次扫描该码，则将状态置为已开启
-			//qrcodeDAO.executeHql(" update QuickResponseCode q set q.qrcode_status = '01' where q.qrcode_insideCode = ?", new Object[]{qrcode_code});
 			qrcode.setQrcodeStatus("01");
 			qrcodeDAO.updateByPrimaryKey(qrcode);
 		}else{

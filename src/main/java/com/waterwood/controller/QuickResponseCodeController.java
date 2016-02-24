@@ -34,7 +34,7 @@ import com.waterwood.utils.validateData;
 
 @Controller
 @RequestMapping("/qrcode")
-public class QuickResponseCodeController{
+public class QuickResponseCodeController {
 	@Autowired
 	private IQuickResponseCodeService qrcodeService;
 	
@@ -159,7 +159,6 @@ public class QuickResponseCodeController{
 	public List<QuickResponseCode> saveMerchandisePatchInfo(MerchandisePatch mer,HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String patchCode = qrcodeService.saveMerchandisePatchInfo(mer);
-		
 		//保存商品信息之后，生成二维码，并返回二维码信息给前台
 		List<QuickResponseCode> qrcList = qrcodeService.
 				generateQRCode(mer.getMerchandiseCount(),patchCode,request);
@@ -171,9 +170,7 @@ public class QuickResponseCodeController{
 	//根据二维码code获取二维码图片src
 	@RequestMapping("getQrcodeSrc")
 	public String getQRCodeSrcByCode(String qr_code,HttpServletRequest request,ModelMap map) throws Exception {
-		String src = qrcodeService.getQRCodeSrc(qr_code);
-		
-		return src;
+		return qrcodeService.getQRCodeSrc(qr_code);
 	}
 	
 	//生成商品信息之后，要根据商品批次信息生成二维码
