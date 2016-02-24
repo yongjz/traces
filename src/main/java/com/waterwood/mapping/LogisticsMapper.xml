@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.waterwood.dao.LogisticsMapper" >
+  <resultMap id="BaseResultMap" type="com.waterwood.entity.Logistics" >
+    <id column="logistics_id" property="logisticsId" jdbcType="INTEGER" />
+    <result column="qrcode_outsideCode" property="qrcodeOutsidecode" jdbcType="VARCHAR" />
+    <result column="logistics_station" property="logisticsStation" jdbcType="VARCHAR" />
+    <result column="logistics_city" property="logisticsCity" jdbcType="VARCHAR" />
+    <result column="logistics_status" property="logisticsStatus" jdbcType="CHAR" />
+    <result column="logistics_type" property="logisticsType" jdbcType="CHAR" />
+    <result column="logistics_info" property="logisticsInfo" jdbcType="VARCHAR" />
+    <result column="logistics_createtime" property="logisticsCreatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    logistics_id, qrcode_outsideCode, logistics_station, logistics_city, logistics_status, 
+    logistics_type, logistics_info, logistics_createtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics
+    where logistics_id = #{logisticsId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByOutsideCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics
+    where qrcode_outsideCode = #{qrcodeOutsidecode,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from logistics
+    where logistics_id = #{logisticsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.waterwood.entity.Logistics" >
+    insert into logistics (logistics_id, qrcode_outsideCode, logistics_station, 
+      logistics_city, logistics_status, logistics_type, 
+      logistics_info, logistics_createtime)
+    values (#{logisticsId,jdbcType=INTEGER}, #{qrcodeOutsidecode,jdbcType=VARCHAR}, #{logisticsStation,jdbcType=VARCHAR}, 
+      #{logisticsCity,jdbcType=VARCHAR}, #{logisticsStatus,jdbcType=CHAR}, #{logisticsType,jdbcType=CHAR}, 
+      #{logisticsInfo,jdbcType=VARCHAR}, #{logisticsCreatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.waterwood.entity.Logistics" >
+    insert into logistics
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logisticsId != null" >
+        logistics_id,
+      </if>
+      <if test="qrcodeOutsidecode != null" >
+        qrcode_outsideCode,
+      </if>
+      <if test="logisticsStation != null" >
+        logistics_station,
+      </if>
+      <if test="logisticsCity != null" >
+        logistics_city,
+      </if>
+      <if test="logisticsStatus != null" >
+        logistics_status,
+      </if>
+      <if test="logisticsType != null" >
+        logistics_type,
+      </if>
+      <if test="logisticsInfo != null" >
+        logistics_info,
+      </if>
+      <if test="logisticsCreatetime != null" >
+        logistics_createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logisticsId != null" >
+        #{logisticsId,jdbcType=INTEGER},
+      </if>
+      <if test="qrcodeOutsidecode != null" >
+        #{qrcodeOutsidecode,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsStation != null" >
+        #{logisticsStation,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCity != null" >
+        #{logisticsCity,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsStatus != null" >
+        #{logisticsStatus,jdbcType=CHAR},
+      </if>
+      <if test="logisticsType != null" >
+        #{logisticsType,jdbcType=CHAR},
+      </if>
+      <if test="logisticsInfo != null" >
+        #{logisticsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCreatetime != null" >
+        #{logisticsCreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.waterwood.entity.Logistics" >
+    update logistics
+    <set >
+      <if test="qrcodeOutsidecode != null" >
+        qrcode_outsideCode = #{qrcodeOutsidecode,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsStation != null" >
+        logistics_station = #{logisticsStation,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCity != null" >
+        logistics_city = #{logisticsCity,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsStatus != null" >
+        logistics_status = #{logisticsStatus,jdbcType=CHAR},
+      </if>
+      <if test="logisticsType != null" >
+        logistics_type = #{logisticsType,jdbcType=CHAR},
+      </if>
+      <if test="logisticsInfo != null" >
+        logistics_info = #{logisticsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCreatetime != null" >
+        logistics_createtime = #{logisticsCreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where logistics_id = #{logisticsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.waterwood.entity.Logistics" >
+    update logistics
+    set qrcode_outsideCode = #{qrcodeOutsidecode,jdbcType=VARCHAR},
+      logistics_station = #{logisticsStation,jdbcType=VARCHAR},
+      logistics_city = #{logisticsCity,jdbcType=VARCHAR},
+      logistics_status = #{logisticsStatus,jdbcType=CHAR},
+      logistics_type = #{logisticsType,jdbcType=CHAR},
+      logistics_info = #{logisticsInfo,jdbcType=VARCHAR},
+      logistics_createtime = #{logisticsCreatetime,jdbcType=TIMESTAMP}
+    where logistics_id = #{logisticsId,jdbcType=INTEGER}
+  </update>
+</mapper>

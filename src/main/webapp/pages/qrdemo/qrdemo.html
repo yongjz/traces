@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>SAGE | Talent Profile</title>
+
+
+<link rel="stylesheet" href="../common/neon/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css">
+<link rel="stylesheet" href="../common/neon/assets/css/font-icons/entypo/css/entypo.css">
+<link rel="stylesheet" href="../common/neon/assets/css/font-icons/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../common/neon/assets/css/bootstrap.css">
+<link rel="stylesheet" href="../common/neon/assets/css/neon-core.css">
+<link rel="stylesheet" href="../common/neon/assets/css/neon-theme.css">
+<link rel="stylesheet" href="../common/neon/assets/css/neon-forms.css">
+<link rel="stylesheet" href="../common/neon/assets/css/custom.css">
+<link rel="stylesheet" href="qrdemo/css/qrdemo.css">
+
+<script src="../common/neon/assets/js/jquery-1.11.0.min.js"></script>
+
+<!--[if lt IE 9]><script src="../common/neon/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+
+</head>
+<body class="page-body">
+	<div class="page-container horizontal-menu">
+		<!-- Top Bar -->
+		<header class="navbar navbar-fixed-top"></header>
+		<!-- Main Content -->
+		<div class="main-content">
+			<div id="main-content-title">
+				<div id="fixed-header">
+					<div class="row">
+						<div class="col-md-8 col-sm-4 clearfix">
+							<h3>
+								<span id="header-title-section">代码演示</span> - <span id="header-title-menu">二维码产生</span>
+							</h3>
+						</div>
+						<div class="col-md-4 col-sm-4 clearfix hidden-xs text-right header-button-bar">
+							<button type="button" class="btn btn-white pull-right space-out-l-top">
+								<i class="glyphicon glyphicon-th"> </i>
+							</button>
+						</div>
+					</div>
+					<hr>
+				</div>
+			</div>
+			<div id="main-content-contents" class="row">
+				<div id="currentDataWidget" class="clippable-widget col-sm-8">
+					<iframe style="position:absolute; top:-910px;left:-910px;width:700px"></iframe>
+					<div class="content-header clearfix">
+						<div class="content-lnk-page pull-left">
+							<span id="portal-top-chat-title" class="font-size-ll font-bold">QRCode Generator Demo</span><br /> <span
+								id="portal-top-chat-subtitle" class="font-size-m text-light">Swordstream</span>
+						</div>
+						<div class="pull-right">
+							<div class="header-option-icon">
+								<i class="fa fa-cut"></i>
+							</div>
+							<div class="header-option-icon">
+								<i class="fa fa-share-square-o "></i>
+							</div>
+							<div class="header-option-icon">
+								<i class="fa fa-gear"></i>
+							</div>
+							<div class="header-option-text primary font-size-m">选项</div>
+						</div>
+					</div>
+					<div class="content-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div id="qr_area" style="display:inline-block;position:absolute;top:-750px;left:-750px;height:600px" class="space-out-m-right"></div>
+								<div style="display:inline-block;vertical-align:top" >  
+									<h3>Input the string to be converted:</h3>
+									<div class="form-group"><input type="text" id="qr_area_input" class="form-control"> </div>
+									<div class="form-group"><button class="form-control btn btn-info" id="qr_btn">OK</button><div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div id="social-board" class="dashboard-content">
+					<div class="content-header"></div>
+					<div id="socialBoardDataBody" class="content-body" style="display: block;"></div>
+				</div>
+			</div>
+			<div id="content-bottom-row" class="row"></div>
+		</div>
+	</div>
+</body>
+<!-- Bottom Scripts -->
+<script src="../common/neon/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js"></script>
+<script src="../common/neon/assets/js/bootstrap.js"></script>
+<script src="../common/neon/assets/js/joinable.js"></script>
+<script src="../common/neon/assets/js/resizeable.js"></script>
+<script src="../common/neon/assets/js/neon-api.js"></script>
+<script src="../common/neon/assets/js/rickshaw/vendor/d3.v3.js"></script>
+<script src="../common/lib/sage/sage.js"></script>
+<script src="../common/neon/assets/js/qrcode/jquery.qrcode.min.js"></script>
+<script src="qrdemo/js/chart-util.js"></script>
+<script src="qrdemo/js/qrdemo.js"></script>
+
+</html>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.waterwood.dao.QuickResponseCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.waterwood.entity.QuickResponseCode" >
+    <id column="qrcode_id" property="qrcodeId" jdbcType="INTEGER" />
+    <result column="qrcode_outsideCode" property="qrcodeOutsidecode" jdbcType="VARCHAR" />
+    <result column="qrcode_insideCode" property="qrcodeInsidecode" jdbcType="VARCHAR" />
+    <result column="qrcode_info" property="qrcodeInfo" jdbcType="VARCHAR" />
+    <result column="qrcode_status" property="qrcodeStatus" jdbcType="CHAR" />
+    <result column="qrcode_type" property="qrcodeType" jdbcType="CHAR" />
+    <result column="qrcode_merchandiseCode" property="qrcodeMerchandisecode" jdbcType="VARCHAR" />
+    <result column="qrcode_merchandisePatchCode" property="qrcodeMerchandisepatchcode" jdbcType="VARCHAR" />
+    <result column="qrcode_outsideSrc" property="qrcodeOutsidesrc" jdbcType="VARCHAR" />
+    <result column="qrcode_insideSrc" property="qrcodeInsidesrc" jdbcType="VARCHAR" />
+    <result column="qrcode_createtime" property="qrcodeCreatetime" jdbcType="TIMESTAMP" />
+    <result column="qrcode_usertime" property="qrcodeUsertime" jdbcType="TIMESTAMP" />
+    <result column="qrcode_seller" property="qrcodeSeller" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    qrcode_id, qrcode_outsideCode, qrcode_insideCode, qrcode_info, qrcode_status, qrcode_type, 
+    qrcode_merchandiseCode, qrcode_merchandisePatchCode, qrcode_outsideSrc, qrcode_insideSrc, 
+    qrcode_createtime, qrcode_usertime, qrcode_seller
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from quickresponsecode
+    where qrcode_id = #{qrcodeId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByOutsideCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from quickresponsecode
+    where qrcode_outsideCode = #{qrcodeOutsidecode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByInsideCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from quickresponsecode
+    where qrcode_insideCode = #{qrcodeInsidecode,jdbcType=VARCHAR},
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from quickresponsecode
+    where qrcode_id = #{qrcodeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.waterwood.entity.QuickResponseCode" >
+    insert into quickresponsecode (qrcode_id, qrcode_outsideCode, qrcode_insideCode, 
+      qrcode_info, qrcode_status, qrcode_type, 
+      qrcode_merchandiseCode, qrcode_merchandisePatchCode, 
+      qrcode_outsideSrc, qrcode_insideSrc, qrcode_createtime, 
+      qrcode_usertime, qrcode_seller)
+    values (#{qrcodeId,jdbcType=INTEGER}, #{qrcodeOutsidecode,jdbcType=VARCHAR}, #{qrcodeInsidecode,jdbcType=VARCHAR}, 
+      #{qrcodeInfo,jdbcType=VARCHAR}, #{qrcodeStatus,jdbcType=CHAR}, #{qrcodeType,jdbcType=CHAR}, 
+      #{qrcodeMerchandisecode,jdbcType=VARCHAR}, #{qrcodeMerchandisepatchcode,jdbcType=VARCHAR}, 
+      #{qrcodeOutsidesrc,jdbcType=VARCHAR}, #{qrcodeInsidesrc,jdbcType=VARCHAR}, #{qrcodeCreatetime,jdbcType=TIMESTAMP}, 
+      #{qrcodeUsertime,jdbcType=TIMESTAMP}, #{qrcodeSeller,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.waterwood.entity.QuickResponseCode" >
+    insert into quickresponsecode
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="qrcodeId != null" >
+        qrcode_id,
+      </if>
+      <if test="qrcodeOutsidecode != null" >
+        qrcode_outsideCode,
+      </if>
+      <if test="qrcodeInsidecode != null" >
+        qrcode_insideCode,
+      </if>
+      <if test="qrcodeInfo != null" >
+        qrcode_info,
+      </if>
+      <if test="qrcodeStatus != null" >
+        qrcode_status,
+      </if>
+      <if test="qrcodeType != null" >
+        qrcode_type,
+      </if>
+      <if test="qrcodeMerchandisecode != null" >
+        qrcode_merchandiseCode,
+      </if>
+      <if test="qrcodeMerchandisepatchcode != null" >
+        qrcode_merchandisePatchCode,
+      </if>
+      <if test="qrcodeOutsidesrc != null" >
+        qrcode_outsideSrc,
+      </if>
+      <if test="qrcodeInsidesrc != null" >
+        qrcode_insideSrc,
+      </if>
+      <if test="qrcodeCreatetime != null" >
+        qrcode_createtime,
+      </if>
+      <if test="qrcodeUsertime != null" >
+        qrcode_usertime,
+      </if>
+      <if test="qrcodeSeller != null" >
+        qrcode_seller,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="qrcodeId != null" >
+        #{qrcodeId,jdbcType=INTEGER},
+      </if>
+      <if test="qrcodeOutsidecode != null" >
+        #{qrcodeOutsidecode,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeInsidecode != null" >
+        #{qrcodeInsidecode,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeInfo != null" >
+        #{qrcodeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeStatus != null" >
+        #{qrcodeStatus,jdbcType=CHAR},
+      </if>
+      <if test="qrcodeType != null" >
+        #{qrcodeType,jdbcType=CHAR},
+      </if>
+      <if test="qrcodeMerchandisecode != null" >
+        #{qrcodeMerchandisecode,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeMerchandisepatchcode != null" >
+        #{qrcodeMerchandisepatchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeOutsidesrc != null" >
+        #{qrcodeOutsidesrc,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeInsidesrc != null" >
+        #{qrcodeInsidesrc,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeCreatetime != null" >
+        #{qrcodeCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qrcodeUsertime != null" >
+        #{qrcodeUsertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qrcodeSeller != null" >
+        #{qrcodeSeller,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.waterwood.entity.QuickResponseCode" >
+    update quickresponsecode
+    <set >
+      <if test="qrcodeOutsidecode != null" >
+        qrcode_outsideCode = #{qrcodeOutsidecode,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeInsidecode != null" >
+        qrcode_insideCode = #{qrcodeInsidecode,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeInfo != null" >
+        qrcode_info = #{qrcodeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeStatus != null" >
+        qrcode_status = #{qrcodeStatus,jdbcType=CHAR},
+      </if>
+      <if test="qrcodeType != null" >
+        qrcode_type = #{qrcodeType,jdbcType=CHAR},
+      </if>
+      <if test="qrcodeMerchandisecode != null" >
+        qrcode_merchandiseCode = #{qrcodeMerchandisecode,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeMerchandisepatchcode != null" >
+        qrcode_merchandisePatchCode = #{qrcodeMerchandisepatchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeOutsidesrc != null" >
+        qrcode_outsideSrc = #{qrcodeOutsidesrc,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeInsidesrc != null" >
+        qrcode_insideSrc = #{qrcodeInsidesrc,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeCreatetime != null" >
+        qrcode_createtime = #{qrcodeCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qrcodeUsertime != null" >
+        qrcode_usertime = #{qrcodeUsertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qrcodeSeller != null" >
+        qrcode_seller = #{qrcodeSeller,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where qrcode_id = #{qrcodeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.waterwood.entity.QuickResponseCode" >
+    update quickresponsecode
+    set qrcode_outsideCode = #{qrcodeOutsidecode,jdbcType=VARCHAR},
+      qrcode_insideCode = #{qrcodeInsidecode,jdbcType=VARCHAR},
+      qrcode_info = #{qrcodeInfo,jdbcType=VARCHAR},
+      qrcode_status = #{qrcodeStatus,jdbcType=CHAR},
+      qrcode_type = #{qrcodeType,jdbcType=CHAR},
+      qrcode_merchandiseCode = #{qrcodeMerchandisecode,jdbcType=VARCHAR},
+      qrcode_merchandisePatchCode = #{qrcodeMerchandisepatchcode,jdbcType=VARCHAR},
+      qrcode_outsideSrc = #{qrcodeOutsidesrc,jdbcType=VARCHAR},
+      qrcode_insideSrc = #{qrcodeInsidesrc,jdbcType=VARCHAR},
+      qrcode_createtime = #{qrcodeCreatetime,jdbcType=TIMESTAMP},
+      qrcode_usertime = #{qrcodeUsertime,jdbcType=TIMESTAMP},
+      qrcode_seller = #{qrcodeSeller,jdbcType=VARCHAR}
+    where qrcode_id = #{qrcodeId,jdbcType=INTEGER}
+  </update>
+</mapper>

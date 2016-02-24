@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.waterwood.dao.MerchandisePatchMapper" >
+  <resultMap id="BaseResultMap" type="com.waterwood.entity.MerchandisePatch" >
+    <id column="merchandisePatch_id" property="merchandisepatchId" jdbcType="INTEGER" />
+    <result column="merchandisePatch_code" property="merchandisepatchCode" jdbcType="VARCHAR" />
+    <result column="merchandise_name" property="merchandiseName" jdbcType="VARCHAR" />
+    <result column="merchandisePatch_info" property="merchandisepatchInfo" jdbcType="VARCHAR" />
+    <result column="merchandise_count" property="merchandiseCount" jdbcType="INTEGER" />
+    <result column="merchandisePatch_productingDate" property="merchandisepatchProductingdate" jdbcType="DATE" />
+    <result column="merchandisePatch_productingArea" property="merchandisepatchProductingarea" jdbcType="VARCHAR" />
+    <result column="merchandise_shelflife" property="merchandiseShelflife" jdbcType="DATE" />
+    <result column="merchandisePatch_minprice" property="merchandisepatchMinprice" jdbcType="DECIMAL" />
+    <result column="merchandisePatch_maxprice" property="merchandisepatchMaxprice" jdbcType="DECIMAL" />
+    <result column="acceptanceAuthority_code" property="acceptanceauthorityCode" jdbcType="VARCHAR" />
+    <result column="merchandisePatch_catalogCode" property="merchandisepatchCatalogcode" jdbcType="VARCHAR" />
+    <result column="merchandisePatch_buyerCode" property="merchandisepatchBuyercode" jdbcType="VARCHAR" />
+    <result column="merchandisePatch_pro" property="merchandisepatchPro" jdbcType="VARCHAR" />
+    <result column="merchandisePatch_createtime" property="merchandisepatchCreatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    merchandisePatch_id, merchandisePatch_code, merchandise_name, merchandisePatch_info, 
+    merchandise_count, merchandisePatch_productingDate, merchandisePatch_productingArea, 
+    merchandise_shelflife, merchandisePatch_minprice, merchandisePatch_maxprice, acceptanceAuthority_code, 
+    merchandisePatch_catalogCode, merchandisePatch_buyerCode, merchandisePatch_pro, merchandisePatch_createtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from merchandisepatch
+    where merchandisePatch_id = #{merchandisepatchId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from merchandisepatch
+    where merchandisePatch_code = #{merchandisepatchCode,jdbcType=VARCHAR},
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from merchandisepatch
+    where merchandisePatch_id = #{merchandisepatchId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.waterwood.entity.MerchandisePatch" >
+    insert into merchandisepatch (merchandisePatch_id, merchandisePatch_code, 
+      merchandise_name, merchandisePatch_info, 
+      merchandise_count, merchandisePatch_productingDate, 
+      merchandisePatch_productingArea, merchandise_shelflife, 
+      merchandisePatch_minprice, merchandisePatch_maxprice, 
+      acceptanceAuthority_code, merchandisePatch_catalogCode, 
+      merchandisePatch_buyerCode, merchandisePatch_pro, 
+      merchandisePatch_createtime)
+    values (#{merchandisepatchId,jdbcType=INTEGER}, #{merchandisepatchCode,jdbcType=VARCHAR}, 
+      #{merchandiseName,jdbcType=VARCHAR}, #{merchandisepatchInfo,jdbcType=VARCHAR}, 
+      #{merchandiseCount,jdbcType=INTEGER}, #{merchandisepatchProductingdate,jdbcType=DATE}, 
+      #{merchandisepatchProductingarea,jdbcType=VARCHAR}, #{merchandiseShelflife,jdbcType=DATE}, 
+      #{merchandisepatchMinprice,jdbcType=DECIMAL}, #{merchandisepatchMaxprice,jdbcType=DECIMAL}, 
+      #{acceptanceauthorityCode,jdbcType=VARCHAR}, #{merchandisepatchCatalogcode,jdbcType=VARCHAR}, 
+      #{merchandisepatchBuyercode,jdbcType=VARCHAR}, #{merchandisepatchPro,jdbcType=VARCHAR}, 
+      #{merchandisepatchCreatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.waterwood.entity.MerchandisePatch" >
+    insert into merchandisepatch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="merchandisepatchId != null" >
+        merchandisePatch_id,
+      </if>
+      <if test="merchandisepatchCode != null" >
+        merchandisePatch_code,
+      </if>
+      <if test="merchandiseName != null" >
+        merchandise_name,
+      </if>
+      <if test="merchandisepatchInfo != null" >
+        merchandisePatch_info,
+      </if>
+      <if test="merchandiseCount != null" >
+        merchandise_count,
+      </if>
+      <if test="merchandisepatchProductingdate != null" >
+        merchandisePatch_productingDate,
+      </if>
+      <if test="merchandisepatchProductingarea != null" >
+        merchandisePatch_productingArea,
+      </if>
+      <if test="merchandiseShelflife != null" >
+        merchandise_shelflife,
+      </if>
+      <if test="merchandisepatchMinprice != null" >
+        merchandisePatch_minprice,
+      </if>
+      <if test="merchandisepatchMaxprice != null" >
+        merchandisePatch_maxprice,
+      </if>
+      <if test="acceptanceauthorityCode != null" >
+        acceptanceAuthority_code,
+      </if>
+      <if test="merchandisepatchCatalogcode != null" >
+        merchandisePatch_catalogCode,
+      </if>
+      <if test="merchandisepatchBuyercode != null" >
+        merchandisePatch_buyerCode,
+      </if>
+      <if test="merchandisepatchPro != null" >
+        merchandisePatch_pro,
+      </if>
+      <if test="merchandisepatchCreatetime != null" >
+        merchandisePatch_createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="merchandisepatchId != null" >
+        #{merchandisepatchId,jdbcType=INTEGER},
+      </if>
+      <if test="merchandisepatchCode != null" >
+        #{merchandisepatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseName != null" >
+        #{merchandiseName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandisepatchInfo != null" >
+        #{merchandisepatchInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseCount != null" >
+        #{merchandiseCount,jdbcType=INTEGER},
+      </if>
+      <if test="merchandisepatchProductingdate != null" >
+        #{merchandisepatchProductingdate,jdbcType=DATE},
+      </if>
+      <if test="merchandisepatchProductingarea != null" >
+        #{merchandisepatchProductingarea,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseShelflife != null" >
+        #{merchandiseShelflife,jdbcType=DATE},
+      </if>
+      <if test="merchandisepatchMinprice != null" >
+        #{merchandisepatchMinprice,jdbcType=DECIMAL},
+      </if>
+      <if test="merchandisepatchMaxprice != null" >
+        #{merchandisepatchMaxprice,jdbcType=DECIMAL},
+      </if>
+      <if test="acceptanceauthorityCode != null" >
+        #{acceptanceauthorityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandisepatchCatalogcode != null" >
+        #{merchandisepatchCatalogcode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandisepatchBuyercode != null" >
+        #{merchandisepatchBuyercode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandisepatchPro != null" >
+        #{merchandisepatchPro,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandisepatchCreatetime != null" >
+        #{merchandisepatchCreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.waterwood.entity.MerchandisePatch" >
+    update merchandisepatch
+    <set >
+      <if test="merchandisepatchCode != null" >
+        merchandisePatch_code = #{merchandisepatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseName != null" >
+        merchandise_name = #{merchandiseName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandisepatchInfo != null" >
+        merchandisePatch_info = #{merchandisepatchInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseCount != null" >
+        merchandise_count = #{merchandiseCount,jdbcType=INTEGER},
+      </if>
+      <if test="merchandisepatchProductingdate != null" >
+        merchandisePatch_productingDate = #{merchandisepatchProductingdate,jdbcType=DATE},
+      </if>
+      <if test="merchandisepatchProductingarea != null" >
+        merchandisePatch_productingArea = #{merchandisepatchProductingarea,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseShelflife != null" >
+        merchandise_shelflife = #{merchandiseShelflife,jdbcType=DATE},
+      </if>
+      <if test="merchandisepatchMinprice != null" >
+        merchandisePatch_minprice = #{merchandisepatchMinprice,jdbcType=DECIMAL},
+      </if>
+      <if test="merchandisepatchMaxprice != null" >
+        merchandisePatch_maxprice = #{merchandisepatchMaxprice,jdbcType=DECIMAL},
+      </if>
+      <if test="acceptanceauthorityCode != null" >
+        acceptanceAuthority_code = #{acceptanceauthorityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandisepatchCatalogcode != null" >
+        merchandisePatch_catalogCode = #{merchandisepatchCatalogcode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandisepatchBuyercode != null" >
+        merchandisePatch_buyerCode = #{merchandisepatchBuyercode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandisepatchPro != null" >
+        merchandisePatch_pro = #{merchandisepatchPro,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandisepatchCreatetime != null" >
+        merchandisePatch_createtime = #{merchandisepatchCreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where merchandisePatch_id = #{merchandisepatchId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.waterwood.entity.MerchandisePatch" >
+    update merchandisepatch
+    set merchandisePatch_code = #{merchandisepatchCode,jdbcType=VARCHAR},
+      merchandise_name = #{merchandiseName,jdbcType=VARCHAR},
+      merchandisePatch_info = #{merchandisepatchInfo,jdbcType=VARCHAR},
+      merchandise_count = #{merchandiseCount,jdbcType=INTEGER},
+      merchandisePatch_productingDate = #{merchandisepatchProductingdate,jdbcType=DATE},
+      merchandisePatch_productingArea = #{merchandisepatchProductingarea,jdbcType=VARCHAR},
+      merchandise_shelflife = #{merchandiseShelflife,jdbcType=DATE},
+      merchandisePatch_minprice = #{merchandisepatchMinprice,jdbcType=DECIMAL},
+      merchandisePatch_maxprice = #{merchandisepatchMaxprice,jdbcType=DECIMAL},
+      acceptanceAuthority_code = #{acceptanceauthorityCode,jdbcType=VARCHAR},
+      merchandisePatch_catalogCode = #{merchandisepatchCatalogcode,jdbcType=VARCHAR},
+      merchandisePatch_buyerCode = #{merchandisepatchBuyercode,jdbcType=VARCHAR},
+      merchandisePatch_pro = #{merchandisepatchPro,jdbcType=VARCHAR},
+      merchandisePatch_createtime = #{merchandisepatchCreatetime,jdbcType=TIMESTAMP}
+    where merchandisePatch_id = #{merchandisepatchId,jdbcType=INTEGER}
+  </update>
+</mapper>
