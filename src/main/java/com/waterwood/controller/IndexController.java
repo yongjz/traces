@@ -10,7 +10,6 @@ public class IndexController {
 
 	@RequestMapping("/index")
 	public String goNewIndex(HttpServletRequest request) throws Exception{
-		System.out.println("aaaaaaaa");
-		return "pages/index.html";
+		return "index";
 	}
 }
