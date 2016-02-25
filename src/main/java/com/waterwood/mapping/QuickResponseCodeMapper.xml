@@ -37,9 +37,8 @@
     select 
     <include refid="Base_Column_List" />
     from quickresponsecode
-    where qrcode_insideCode = #{qrcodeInsidecode,jdbcType=VARCHAR},
+    where qrcode_insideCode = #{qrcodeInsidecode,jdbcType=VARCHAR}
   </select>
-  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from quickresponsecode
     where qrcode_id = #{qrcodeId,jdbcType=INTEGER}

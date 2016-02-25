@@ -18,6 +18,12 @@ public class LogisticsController {
 	@Autowired
 	private ILogisticsService logisticsService;
 	
+	/**
+	 * 扫外部二维码访问的链接，显示物流信息
+	 * @param code
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("out")
 	public List<Logistics> showLogisticsInfo(String code,HttpServletRequest request){
 		List<Logistics> logisticsList = logisticsService.findLogisticsListByQRCode(code);
@@ -25,9 +31,14 @@ public class LogisticsController {
 		return logisticsList;
 	}
 	
+	/**
+	 * 扫内部二维码访问的链接，显示商品是否被启用过
+	 * @param code
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("in")
 	public validateMerchandiseData validateMerchandise(String code,HttpServletRequest request){
-		validateMerchandiseData qrc = logisticsService.validateQrcode(code);
-		return qrc;
+		return logisticsService.validateQrcode(code);
 	}
 }

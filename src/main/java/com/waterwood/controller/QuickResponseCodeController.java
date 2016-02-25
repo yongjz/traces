@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,18 +55,7 @@ public class QuickResponseCodeController {
 	@RequestMapping("/saveMerchandiseInfo/out/{id}")
 	public void saveMerchandisePatchInfoOut(HttpServletRequest request,
 			HttpServletResponse response,@PathVariable String id) throws Exception {
-		//临时数据类，获取前台传过来的数据
-		TemporaryMerchandisePatch mp = new TemporaryMerchandisePatch();
-		mp.setAcceptanceAuthority("北京11");
-		mp.setMerchandiseCounts(100);
-		mp.setMerchandiseName("liss牌牛奶");
-		mp.setMerchandisePatchCatalog("饮品");
-		mp.setMerchandisePatchCode("201412172039");
-		mp.setMerchandisePatchMaxPrice(new BigDecimal(200));
-		mp.setMerchandisePatchMinPrice(new BigDecimal(100));
-		mp.setMerchandisePatchProductingDate("Wed, 17 December 2014");
-		mp.setMerchandiseShelflifeDate("Wed, 17 December 2015");
-		
+		MerchandisePatch mp = (MerchandisePatch)request.getSession().getAttribute("mer");
 		//二维码内容
 		String context = Util.getServerFullPath(request) + URL_LOGISTICS + "?code=" + id +"_"+Util.nameSdf.format(new Date());
 		//二维码尺寸
@@ -136,8 +126,7 @@ public class QuickResponseCodeController {
 	
 	@RequestMapping("/validate")
 	@ResponseBody
-	public validateData validateQrcode(HttpServletRequest request,
-			HttpServletResponse response){
+	public validateData validateQrcode(HttpServletRequest request, HttpServletResponse response) {
 		validateData v = new validateData();
 		v.setIsOpen(qrcodeStatus);
 		v.setDateTime(Util.sdf.format(new Date()));
@@ -155,16 +144,13 @@ public class QuickResponseCodeController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/saveMerchandisePatchInfo")
-	public List<QuickResponseCode> saveMerchandisePatchInfo(MerchandisePatch mer,HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		String patchCode = qrcodeService.saveMerchandisePatchInfo(mer);
-		//保存商品信息之后，生成二维码，并返回二维码信息给前台
-		List<QuickResponseCode> qrcList = qrcodeService.
-				generateQRCode(mer.getMerchandiseCount(),patchCode,request);
-		//判断成功与否的返回值，之后统一为AjaxJson类
-		
-		return qrcList;
+	public String saveMerchandisePatchInfo(MerchandisePatch mer,HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		qrcodeService.saveMerchandisePatchInfo(mer);
+		//model.addAttribute("mer", mer);
+		request.getSession().setAttribute("mer", mer);
+		System.out.println("访问qr-gen-preview.html");
+		return "redirect:/pages/qrdemo/qr-gen-preview.html";
 	}
 	
 	//根据二维码code获取二维码图片src
