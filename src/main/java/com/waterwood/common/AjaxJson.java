@@ -1,4 +1,4 @@
-package com.waterwood.utils;
+package com.waterwood.common;
 
 import java.util.Map;
 

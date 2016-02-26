@@ -1,15 +1,14 @@
-package com.waterwood.entity;
+package com.waterwood.common;
 
 import java.io.Serializable;
 
-public class validateMerchandiseData implements Serializable{
+public class validateData implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4486603388497715290L;
 	private Boolean isOpen;
 	private String dateTime;
-	private MerchandisePatch merchandisePatch;
 	public Boolean getIsOpen() {
 		return isOpen;
 	}
@@ -21,12 +20,6 @@ public class validateMerchandiseData implements Serializable{
 	}
 	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
-	}
-	public MerchandisePatch getMerchandisePatch() {
-		return merchandisePatch;
-	}
-	public void setMerchandisePatch(MerchandisePatch merchandisePatch) {
-		this.merchandisePatch = merchandisePatch;
 	}
 	
 }

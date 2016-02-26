@@ -3,7 +3,6 @@ package com.waterwood.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -24,14 +23,14 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
+import com.waterwood.common.Global;
+import com.waterwood.common.validateData;
 import com.waterwood.entity.MerchandisePatch;
 import com.waterwood.entity.QuickResponseCode;
 import com.waterwood.service.IQuickResponseCodeService;
 import com.waterwood.utils.LogoConfig;
 import com.waterwood.utils.QrCodeUtil;
-import com.waterwood.utils.TemporaryMerchandisePatch;
 import com.waterwood.utils.Util;
-import com.waterwood.utils.validateData;
 
 @Controller
 @RequestMapping("/qrcode")
@@ -39,11 +38,17 @@ public class QuickResponseCodeController {
 	@Autowired
 	private IQuickResponseCodeService qrcodeService;
 	
-	//判断该二维码是否被开启过，初始是未开启
-	public static boolean qrcodeStatus = false;
-	
-	private static final String URL_LOGISTICS = "pages/qrdemo/logistics.html";
-	private static final String URL_VALIDATE = "pages/qrdemo/validate.html";
+	@RequestMapping("/generateQrCodes")
+	public void generateQrCodes(HttpServletRequest request, HttpServletResponse response) {
+		MerchandisePatch mp = (MerchandisePatch)request.getSession().getAttribute("mer");
+		//path形式为http://localhost:8080/traces
+		String path = Util.getServerFullPath(request);
+		//realpath形式为D://tomcat/webapp/traces
+		String realpath = request.getSession().getServletContext().getRealPath("");
+		List<QuickResponseCode> list = qrcodeService.
+			generateQRCode(mp.getMerchandiseCount(),mp.getMerchandisepatchCode(), path, realpath);
+		
+	}
 	
 	/**
 	 * 根据页面传来的信息生成二维码方法
@@ -51,13 +56,13 @@ public class QuickResponseCodeController {
 	 * @param response
 	 * @param id
 	 * @throws Exception
+	 * 
 	 */
 	@RequestMapping("/saveMerchandiseInfo/out/{id}")
 	public void saveMerchandisePatchInfoOut(HttpServletRequest request,
 			HttpServletResponse response,@PathVariable String id) throws Exception {
-		MerchandisePatch mp = (MerchandisePatch)request.getSession().getAttribute("mer");
 		//二维码内容
-		String context = Util.getServerFullPath(request) + URL_LOGISTICS + "?code=" + id +"_"+Util.nameSdf.format(new Date());
+		String context = Util.getServerFullPath(request) + Global.URL_LOGISTICS + "?code=" + id +"_"+Util.nameSdf.format(new Date());
 		//二维码尺寸
 		int width = 300;
 		int height = 300;
@@ -87,7 +92,7 @@ public class QuickResponseCodeController {
 			HttpServletResponse response,@PathVariable String id) throws Exception {
 		String realpath = request.getSession().getServletContext().getRealPath("");
 		//二维码内容
-		String context = Util.getServerFullPath(request) + URL_VALIDATE + "?code=" + id +"_"+Util.nameSdf.format(new Date());
+		String context = Util.getServerFullPath(request) + Global.URL_VALIDATE + "?code=" + id +"_"+Util.nameSdf.format(new Date());
 		//二维码尺寸
 		int width = 300;
 		int height = 300;
@@ -128,10 +133,10 @@ public class QuickResponseCodeController {
 	@ResponseBody
 	public validateData validateQrcode(HttpServletRequest request, HttpServletResponse response) {
 		validateData v = new validateData();
-		v.setIsOpen(qrcodeStatus);
+		v.setIsOpen(Global.qrcodeStatus);
 		v.setDateTime(Util.sdf.format(new Date()));
-		if(qrcodeStatus == false){
-			qrcodeStatus = true;
+		if(Global.qrcodeStatus == false){
+			Global.qrcodeStatus = true;
 		}
 		return v;
 	}

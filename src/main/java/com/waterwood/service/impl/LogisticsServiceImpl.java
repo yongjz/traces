@@ -6,13 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.waterwood.common.validateMerchandiseData;
 import com.waterwood.dao.LogisticsMapper;
 import com.waterwood.dao.MerchandisePatchMapper;
 import com.waterwood.dao.QuickResponseCodeMapper;
 import com.waterwood.entity.Logistics;
 import com.waterwood.entity.MerchandisePatch;
 import com.waterwood.entity.QuickResponseCode;
-import com.waterwood.entity.validateMerchandiseData;
 import com.waterwood.service.ILogisticsService;
 import com.waterwood.utils.Util;
 

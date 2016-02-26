@@ -9,9 +9,9 @@ import com.waterwood.entity.MerchandisePatch;
 import com.waterwood.entity.QuickResponseCode;
 
 public interface IQuickResponseCodeService {
-	public String saveMerchandisePatchInfo(MerchandisePatch mer) throws ParseException;
+public String saveMerchandisePatchInfo(MerchandisePatch mer) throws ParseException;
 	
-	public List<QuickResponseCode> generateQRCode(int count,String patchCode,HttpServletRequest request);
+	public List<QuickResponseCode> generateQRCode(int count,String patchCode, String path, String realpath);
 	
 	public String getQRCodeSrc(String qr_code);
 }

@@ -7,9 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.waterwood.common.validateMerchandiseData;
 import com.waterwood.entity.Logistics;
-import com.waterwood.entity.validateMerchandiseData;
 import com.waterwood.service.ILogisticsService;
 
 @Controller
@@ -25,6 +26,7 @@ public class LogisticsController {
 	 * @return
 	 */
 	@RequestMapping("out")
+	@ResponseBody
 	public List<Logistics> showLogisticsInfo(String code,HttpServletRequest request){
 		List<Logistics> logisticsList = logisticsService.findLogisticsListByQRCode(code);
 		
@@ -38,6 +40,7 @@ public class LogisticsController {
 	 * @return
 	 */
 	@RequestMapping("in")
+	@ResponseBody
 	public validateMerchandiseData validateMerchandise(String code,HttpServletRequest request){
 		return logisticsService.validateQrcode(code);
 	}

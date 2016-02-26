@@ -14,28 +14,6 @@ import javax.servlet.http.HttpServletRequest;
  * 通用工具类
  */
 public class Util {
-	public static final String URL_LOGISTICS = "pages/qrdemo/logistics.html";
-	public static final String URL_VALIDATE = "pages/qrdemo/validate.html";
-
-	/**
-	 * 对字符串进行MD5加密
-	 * 
-	 * @param str
-	 * @return String
-	 */
-	/*public static String md5Encryption(String str) {
-		String newStr = null;
-		try {
-			MessageDigest md5 = MessageDigest.getInstance("MD5");
-			BASE64Encoder base = new BASE64Encoder();
-			newStr = base.encode(md5.digest(str.getBytes("UTF-8")));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return newStr;
-	}*/
-	
-
 	/**
 	 * 判断字符串是否为空
 	 * 
