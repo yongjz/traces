@@ -9,6 +9,10 @@ public class User {
 
     private Integer age;
 
+    private String salt;
+
+    private Boolean locked = Boolean.FALSE;
+    
     public Integer getId() {
         return id;
     }
@@ -39,5 +43,24 @@ public class User {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getCredentialsSalt() {
+        return userName + salt;
+    }
+
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
     }
 }
