@@ -1,2 +1,2 @@
 # traces
-This is a spring mvc and mybatis project.
+This is a springmvc + mybatis + shiro project.
