@@ -34,9 +34,8 @@
     select 
     <include refid="Base_Column_List" />
     from merchandisepatch
-    where merchandisePatch_code = #{merchandisepatchCode,jdbcType=VARCHAR},
+    where merchandisePatch_code = #{merchandisepatchCode,jdbcType=VARCHAR}
   </select>
-  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from merchandisepatch
     where merchandisePatch_id = #{merchandisepatchId,jdbcType=INTEGER}

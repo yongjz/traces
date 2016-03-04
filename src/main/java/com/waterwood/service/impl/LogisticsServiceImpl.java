@@ -32,22 +32,23 @@ public class LogisticsServiceImpl implements ILogisticsService {
 	
 	@Override
 	public validateMerchandiseData validateQrcode(String qrcode_code) {
-		//根据二维码内码查询二维码属性
 		QuickResponseCode qrcode = qrcodeDAO.selectByInsideCode(qrcode_code);
 		if(qrcode==null) {
 			return null;
 		}
 		
 		validateMerchandiseData v = new validateMerchandiseData();
-		v.setDateTime(Util.sdf.format(new Date()));
+		
 		if(qrcode.getQrcodeStatus().equals("00")) {
 			v.setIsOpen(false);
 			//如果是第一次扫描该码，则将状态置为已开启
 			qrcode.setQrcodeStatus("01");
+			qrcode.setQrcodeUsertime(new Date());
 			qrcodeDAO.updateByPrimaryKey(qrcode);
 		} else {
 			v.setIsOpen(true);
 		}
+		v.setDateTime(Util.sdf.format(qrcode.getQrcodeUsertime()));
 		
 		MerchandisePatch mer = merDAO.selectByCode(qrcode.getQrcodeMerchandisepatchcode());
 		v.setMerchandisePatch(mer);

@@ -23,7 +23,7 @@ public interface UserMapper {
     public void correlationRoles(Long userId, Long... roleIds);
     public void uncorrelationRoles(Long userId, Long... roleIds);
     User findOne(Long userId);
-    User findByUsername(String username);
+    User findByUsername(String userName);
     Set<String> findRoles(String username);
     Set<String> findPermissions(String username);
 }
