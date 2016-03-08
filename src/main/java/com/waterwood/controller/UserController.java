@@ -54,7 +54,8 @@ public class UserController {
             subject.login(token);  
             if (subject.isAuthenticated()) {  
                 return "redirect:/";  
-            } else {  
+            } else {
+            	model.addAttribute("message", "登录失败"); 
                 return "login";  
             }  
         } catch (IncorrectCredentialsException e) {  
@@ -85,7 +86,7 @@ public class UserController {
             msg = "您没有得到相应的授权！" + e.getMessage();  
             model.addAttribute("message", msg);  
             System.out.println(msg);  
-        }  
+        }
         return "login";  
     }  
 }

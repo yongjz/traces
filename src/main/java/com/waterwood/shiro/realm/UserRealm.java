@@ -24,6 +24,7 @@ public class UserRealm extends AuthorizingRealm {
 	@Autowired
 	private IUserService userService;
 
+	//授权，即权限验证，验证某个已认证的用户是否拥有某个权限
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		String username = (String) principals.getPrimaryPrincipal();
@@ -35,6 +36,7 @@ public class UserRealm extends AuthorizingRealm {
 		return authorizationInfo;
 	}
 
+	//身份认证/登录
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
@@ -51,10 +53,11 @@ public class UserRealm extends AuthorizingRealm {
 		}
 
 		// 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
-		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getUserName(), // 用户名
-				user.getPassword(), // 密码
-				ByteSource.Util.bytes(user.getCredentialsSalt()), // salt=username+salt
-				getName() // realm name
+		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+			user.getUserName(), // 用户名
+			user.getPassword(), // 密码
+			ByteSource.Util.bytes(user.getCredentialsSalt()), // salt=username+salt
+			getName() // realm name
 		);
 		return authenticationInfo;
 	}

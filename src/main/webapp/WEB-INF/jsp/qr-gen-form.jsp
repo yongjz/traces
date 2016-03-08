@@ -1,0 +1,150 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>填写产品信息</title>
+
+<link rel="stylesheet" href="<%=request.getContextPath()%>/pages/common/neon/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/pages/common/neon/assets/css/font-icons/entypo/css/entypo.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/pages/common/neon/assets/css/font-icons/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/pages/common/neon/assets/css/bootstrap.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/pages/common/neon/assets/css/neon-core.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/pages/common/neon/assets/css/neon-theme.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/pages/common/neon/assets/css/neon-forms.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/pages/common/neon/assets/css/custom.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/pages/qrdemo/qr-gen/css/qr-gen.css">
+
+<script src="<%=request.getContextPath()%>/pages/common/neon/assets/js/jquery-1.11.0.min.js"></script>
+
+<!--[if lt IE 9]><script src="<%=request.getContextPath()%>/pages/common/neon/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body class="page-body">
+	<div class="page-container horizontal-menu">
+		<!-- Top Bar -->
+		<header class="navbar navbar-fixed-top"></header>
+		<!-- Main Content -->
+		<div class="main-content">
+			<div id="main-content-title">
+				<div id="fixed-header">
+					<div class="row">
+						<div class="col-md-8 col-sm-4 clearfix">
+							<h3>
+								<span id="header-title-section">二维码制造</span> - <span id="header-title-menu">填写表单</span>
+							</h3>
+						</div>
+						<div class="col-md-4 col-sm-4 clearfix hidden-xs text-right header-button-bar">
+							<div class="form-wizard font-size-ss space-out-s-top">
+								<div class="steps-progress">
+									<div class="progress-indicator" style="width: 0%;"></div>
+								</div>
+
+								<ul>
+									<li class="active"><a href="#tab1" data-toggle="tab"><span>1</span>表单填写</a></li>
+									<li><a href="#tab2" data-toggle="tab"><span>2</span>二维码确认</a></li>
+									<li><a href="#tab3" data-toggle="tab"><span>3</span>打印/导出</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<hr>
+				</div>
+			</div>
+			<div id="main-content-contents" class="row">
+				<div class="col-sm-8">
+					<div class="form-group">
+						<label for="product" class="control-label">商品名称</label> 
+						<input type="text" class="form-control" id="product" placeholder="填写商品名，如liss牌牛奶">
+					</div>
+
+					<div class="form-group">
+						<label class="control-label">商品数量</label>
+						<div class="input-spinner" style="display: inline-block">
+							<button type="button" class="btn btn-default" id="productCount">-</button>
+							<input type="text" class="form-control size-1" id="merchandiseCount" value="100">
+							<button type="button" class="btn btn-default">+</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="shoulijiguan" class="control-label">受理机关</label> <input type="text" class="form-control"
+							id="shoulijiguan" placeholder="受理机关编号, 如北京11">
+					</div>
+					<div class="form-group">
+						<label for="product_type" class="control-label">产品类别</label> <input type="text" class="form-control"
+							id="product_type" placeholder="产品类别编号,位于QS代码第5位至第8位,如小麦粉0101 ">
+					</div>
+					<div class="form-group">
+						<label class="control-label">价格区间 (￥)</label>
+						<div class="input-spinner" style="display: inline-block">
+							<button type="button" class="btn btn-default">-</button>
+							<input type="text" class="form-control size-1" id="min_Price" value="100">
+							<button type="button" class="btn btn-default">+</button>
+						</div>
+						<div
+							style="display: inline-block; vertical-align: top; width: 50px; text-align: center; padding: 5px; font-weight: bold;">——
+						</div>
+						<div class="input-spinner" style="display: inline-block">
+							<button type="button" class="btn btn-default">-</button>
+							<input type="text" class="form-control size-1" id="max_Price" value="200">
+							<button type="button" class="btn btn-default">+</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="product_approval" class="control-label">商品批号</label> <input type="text" class="form-control"
+							id="product_approval" placeholder="商品批号">
+					</div>
+					<div class="form-group">
+						<label for="product_gen" class="control-label">生产日期</label>
+						<div class="input-group">
+							<input type="text" class="form-control datepicker" data-format="D, dd MM yyyy" id="product_gen">
+
+							<div class="input-group-addon">
+								<a href="#"><i class="entypo-calendar"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="product_exp" class="control-label">过期日期</label>
+						<div class="input-group">
+							<input type="text" class="form-control datepicker" data-format="D, dd MM yyyy" id="product_exp">
+
+							<div class="input-group-addon">
+								<a href="#"><i class="entypo-calendar"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" style="text-align: right; margin-top: 25px">
+						<button class="btn btn-primary" id="submit-button">
+							<i class="fa fa-qrcode"></i> 提交并预生成二维码
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<!-- Bottom Scripts -->
+<script src="<%=request.getContextPath()%>/pages/common/neon/assets/js/gsap/main-gsap.js"></script>
+<script src="<%=request.getContextPath()%>/pages/common/neon/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js"></script>
+<script src="<%=request.getContextPath()%>/pages/common/neon/assets/js/bootstrap.js"></script>
+<script src="<%=request.getContextPath()%>/pages/common/neon/assets/js/joinable.js"></script>
+<script src="<%=request.getContextPath()%>/pages/common/neon/assets/js/resizeable.js"></script>
+<script src="<%=request.getContextPath()%>/pages/common/neon/assets/js/bootstrap-datepicker.js"></script>
+<script src="<%=request.getContextPath()%>/pages/common/neon/assets/js/neon-api.js"></script>
+<script src="<%=request.getContextPath()%>/pages/common/neon/assets/js/neon-custom.js"></script>
+<script src="<%=request.getContextPath()%>/pages/common/lib/sage/sage.js"></script>
+<script src="<%=request.getContextPath()%>/pages/qrdemo/qr-gen/js/qr-gen-form2.js"></script>
+</html>

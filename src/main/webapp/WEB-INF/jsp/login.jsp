@@ -14,6 +14,6 @@
         <input type="submit" value="login" />  
     </form>  
     <%--用于输入后台返回的验证错误信息 --%>  
-    <P><c:out value="${message }" /></P>
+    <p>${message }</p>
 </body>
 </html>
