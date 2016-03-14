@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.google.zxing.BarcodeFormat;
@@ -20,7 +21,7 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import com.waterwood.common.Global;
+import com.waterwood.entity.MerchandisePatch;
 import com.waterwood.dao.QuickResponseCodeMapper;
 import com.waterwood.entity.QuickResponseCode;
 import com.waterwood.service.IQuickResponseCodeService;
@@ -35,7 +36,7 @@ public class QuickResponseCodeServiceImpl implements IQuickResponseCodeService {
 	
 	@Override
 	public QuickResponseCode generateQRCode(QuickResponseCode qrc) {
-		if(StringUtils.isEmpty(qrc.getQrcodeInfo())){
+		if(StringUtils.isEmpty(qrc.getQrcodeInfo())) {
 			qrc.setQrcodeInfo("empty qrcode");
 		}
 		qrc.setQrcodeOutsidecode("out_" + Util.getRandomGUID(true));
@@ -48,38 +49,34 @@ public class QuickResponseCodeServiceImpl implements IQuickResponseCodeService {
 	}
 	
 	@Override
-	public List<QuickResponseCode> generateQRCodeList(int count,String patchCode, String path, String realpath){
+	@Transactional(rollbackFor = java.lang.Exception.class)
+	public List<QuickResponseCode> generateQRCodeList(MerchandisePatch mp, String path, String realpath){
 		List<QuickResponseCode> list = new ArrayList<QuickResponseCode>();
 		
-		for(int i = 0;i<count;i++){
+		for(int i = 1; i <= mp.getMerchandiseCount(); i++) {
 			QuickResponseCode qrcode = new QuickResponseCode();
-			qrcode.setQrcodeOutsidecode("out_"+Util.getRandomGUID(true));
-			qrcode.setQrcodeInsidecode("in_"+Util.getRandomGUID(true));
-			qrcode.setQrcodeInfo("这是一个二维码");
-			qrcode.setQrcodeStatus("00");
-			qrcode.setQrcodeType("1");
-			qrcode.setQrcodeMerchandisepatchcode(patchCode);
-			
-			//TODO QuickResponseCode缺少两个属性，分别记录内码和外码的内容
-			
-			String outsideCodeText = String.
-					format(path+ Global.URL_LOGISTICS + "?code="+qrcode.getQrcodeOutsidecode());
-			String insideCodeText = String.
-					format(path+ Global.URL_VALIDATE +"?code="+qrcode.getQrcodeInsidecode());
-			
-			String outsideSrc = createOutsideCode(outsideCodeText,realpath);
+			if(StringUtils.isEmpty(qrcode.getQrcodeInfo())){
+				qrcode.setQrcodeInfo("empty qrcode");
+			}
+			qrcode.setQrcodeOutsidecode(i + "out_" + Util.getRandomGUID(true));
+			qrcode.setQrcodeInsidecode(i + "in_" + Util.getRandomGUID(true));
+			qrcode.setQrcodeStatus("11"); //11表示预生成状态，00表示已经正式生成；01表示已经启用了
+			qrcode.setQrcodeType("00");
+			qrcode.setQrcodeMerchandisepatchcode(mp.getMerchandisepatchCode());
+			String outsideCodeText = String.format(path + "logistics?code=" + qrcode.getQrcodeOutsidecode());
+			String insideCodeText = String.format(path + "validate?code=" + qrcode.getQrcodeInsidecode());
+
+			String outsideSrc = createOutsideCode(outsideCodeText, mp.getMerchandisepatchCode(), qrcode.getQrcodeOutsidecode(), realpath);
 			if(!outsideSrc.equals("failed")){
 				qrcode.setQrcodeOutsidesrc(outsideSrc);
 			}
-			String insideSrc = createInsideCode(insideCodeText,realpath);
+			String insideSrc = createInsideCode(insideCodeText, mp.getMerchandisepatchCode(), qrcode.getQrcodeInsidecode(), realpath);
 			if(!insideSrc.equals("failed")){
 				qrcode.setQrcodeInsidesrc(insideSrc);
 			}
 			
 			qrcode.setQrcodeSeller("");
-			qrcode.setQrcodeUsertime(new Date());
 			qrcode.setQrcodeCreatetime(new Date());
-			//调用保存二维码的service方法
 			qrcodeDAO.insert(qrcode);
 			list.add(qrcode);
 		}
@@ -91,7 +88,7 @@ public class QuickResponseCodeServiceImpl implements IQuickResponseCodeService {
      * 外部二维码的生成
      *
      */
-	public String createOutsideCode(String text,String realpath){
+	public String createOutsideCode(String text, String merchandisePatchCode, String qrcode, String realpath){
 		int width = 300;
 		int height = 300;
 		// 二维码的图片格式
@@ -102,14 +99,21 @@ public class QuickResponseCodeServiceImpl implements IQuickResponseCodeService {
 		// 内容所使用编码
 		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
 		try {
-			BitMatrix bitMatrix = new MultiFormatWriter().encode(text,BarcodeFormat.QR_CODE,width,height,hints);
-			// 生成二维码
-			String relativePath = QrCodeUtil.OUT_QRCODE_IMG+"/"+
-					Util.directorySdf.format(new Date())+"/"+
-					Util.nameSdf.format(new Date())+
-					QrCodeUtil.IMG_SUFFIX;
-			File outputFile = new File(realpath+relativePath);
+			BitMatrix bitMatrix = new MultiFormatWriter()
+				.encode(text,BarcodeFormat.QR_CODE,width,height,hints);
+			String relativeDir = "/qrcode/" + merchandisePatchCode + "/" +
+				Util.directorySdf.format(new Date());
+			String lastDirPath = realpath + relativeDir;
+			File dir = new File(lastDirPath);
+			if(!dir.exists()) {
+				dir.mkdirs();  
+	        }
+			
+			String relativePath = relativeDir + "/" + qrcode + QrCodeUtil.IMG_SUFFIX;
+			String lastPath = realpath + relativePath;
+			File outputFile = new File(lastPath);
 			MatrixToImageWriter.writeToFile(bitMatrix, format, outputFile);
+			
 			return relativePath;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -121,7 +125,7 @@ public class QuickResponseCodeServiceImpl implements IQuickResponseCodeService {
      * 内部二维码的生成
      *
      */
-	public String createInsideCode(String text,String realpath){
+	public String createInsideCode(String text, String merchandisePatchCode, String qrcode, String realpath){
 		int width = 350;
 		int height = 350;
 		// 二维码的图片格式
@@ -132,19 +136,21 @@ public class QuickResponseCodeServiceImpl implements IQuickResponseCodeService {
 		// 内容所使用编码
 		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
 		try {
-			//BitMatrix bitMatrix = new MultiFormatWriter().encode(text,BarcodeFormat.QR_CODE,width,height,hints);
 			BitMatrix bitMatrix = new MultiFormatWriter()
-					.encode(text,BarcodeFormat.QR_CODE,width,height,hints);
-			// 生成二维码
-			String relativePath = QrCodeUtil.IN_QRCODE_IMG+"/"+
-					Util.directorySdf.format(new Date())+"/"+
-					Util.nameSdf.format(new Date())+
-					QrCodeUtil.IMG_SUFFIX;
-			File outputFile = new File(realpath+relativePath);
+				.encode(text, BarcodeFormat.QR_CODE, width, height, hints);
+			String relativeDir = "/qrcode/" + merchandisePatchCode + "/" +
+				Util.directorySdf.format(new Date());
+			String lastDirPath = realpath + relativeDir;
+			File dir = new File(lastDirPath);
+			if (!dir.exists()) {  
+				dir.mkdirs();  
+	        }
+			String relativePath = relativeDir + "/" + qrcode + QrCodeUtil.IMG_SUFFIX;
+			String lastPath = realpath + relativePath;
+			File outputFile = new File(lastPath);
 			MatrixToImageWriter.writeToFile(bitMatrix, format, outputFile);
-			
-			addLogo_QRCode(realpath+relativePath,new File(realpath+relativePath),
-					new File(realpath+QrCodeUtil.LOGO_IMG), new LogoConfig());
+			addLogo_QRCode(lastPath, outputFile,
+				new File(realpath + QrCodeUtil.LOGO_IMG), new LogoConfig());
 			
 			return relativePath;
 		} catch (Exception e) {
@@ -178,11 +184,12 @@ public class QuickResponseCodeServiceImpl implements IQuickResponseCodeService {
     		 */
     		BufferedImage logo = ImageIO.read(logoPic);
 
-    		int widthLogo = logo.getWidth(), heightLogo = logo.getHeight();
+    		//int widthLogo = logo.getWidth(), heightLogo = logo.getHeight();
+    		int widthLogo = 50, heightLogo = 50;
 
     		// 计算图片放置位置
     		int x = (image.getWidth() - widthLogo) / 2;
-    		int y = (image.getHeight() - logo.getHeight()) / 2;
+    		int y = (image.getHeight() - heightLogo) / 2;
 
     		//开始绘制图片
     		g.drawImage(logo, x, y, widthLogo, heightLogo, null);
@@ -193,7 +200,7 @@ public class QuickResponseCodeServiceImpl implements IQuickResponseCodeService {
 
     		g.dispose();
 
-    		ImageIO.write(image, "jpg", new File(qrPicStr));
+    		ImageIO.write(image, "png", new File(qrPicStr));
     	}
     	catch (Exception e)
     	{

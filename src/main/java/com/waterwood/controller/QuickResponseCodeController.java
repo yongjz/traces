@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
+import com.waterwood.entity.MerchandisePatch;
 import com.waterwood.common.Global;
 import com.waterwood.common.validateData;
 import com.waterwood.entity.QuickResponseCode;
@@ -36,17 +38,23 @@ public class QuickResponseCodeController {
 	@Autowired
 	private IQuickResponseCodeService qrcodeService;
 	
-	/*@RequestMapping("/generateQrCodes")
-	public void generateQrCodes(HttpServletRequest request, HttpServletResponse response) {
+
+	@RequestMapping("/generateQrCodes")
+	@ResponseBody
+	public List<QuickResponseCode> generateQrCodes(HttpServletRequest request, HttpServletResponse response) {
 		MerchandisePatch mp = (MerchandisePatch)request.getSession().getAttribute("mer");
+		if(mp == null) {
+			return null;
+		}
 		//path形式为http://localhost:8080/traces
 		String path = Util.getServerFullPath(request);
 		//realpath形式为D://tomcat/webapp/traces
 		String realpath = request.getSession().getServletContext().getRealPath("");
-		List<QuickResponseCode> list = qrcodeService.
-			generateQRCodeList(mp.getMerchandiseCount(),mp.getMerchandisepatchCode(), path, realpath);
-		
-	}*/
+		//List<QuickResponseCode> list = qrcodeService.generateQRCodeList(mp.getMerchandiseCount(),mp.getMerchandisepatchCode(), path, realpath);
+		List<QuickResponseCode> list = qrcodeService.generateQRCodeList(mp, path, realpath);
+		request.getSession().setAttribute("mer", null);
+		return list;
+	}
 	
 	/**
 	 * 根据页面传来的信息生成二维码方法

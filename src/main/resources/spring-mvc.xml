@@ -56,5 +56,5 @@
 	<mvc:resources mapping="/css/**" location="/css/" />
 	<mvc:resources mapping="/common/**" location="/common/" />
 	<mvc:resources mapping="/pages/**" location="/pages/" />
-	
+	<mvc:resources mapping="/qrcode/**" location="/qrcode/" />
 </beans>  

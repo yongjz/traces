@@ -2,8 +2,6 @@ var sample = sample || {};
 
 sample.QRGenPreview = function() {
 	var self = this;
-	var CONTROLLER_QRCODE_IN = "../../qrcode/saveMerchandiseInfo/in";
-	var CONTROLLER_QRCODE_OUT = "../../qrcode/saveMerchandiseInfo/out"
 
 	sample.QRGenPreview.prototype.bindEvents = function() {
 		$("#btn-generate").bind("click", this.onCreateQR);
@@ -13,25 +11,26 @@ sample.QRGenPreview = function() {
 	sample.QRGenPreview.prototype.initBeforeBind = function() {
 		var $paper = $(".doc-preview-panel .paper");
 		var template =Hogan.compile($("#tmpl-qr-row").html());
-		//FIXME: Fake qrcodes
-		var qrcodes = [];
-		for(var i = 0 ;i<25;i++){
-			qrcodes.push(i);
-		}
+		
 		var iterator = 0;
 		var sizeInRow = 3;
-		while(iterator < qrcodes.length){
-			var renderObj = {};
-			for(var i = 0; i< sizeInRow; i++){
-				if(iterator + i >= qrcodes.length){
-					break;
+		$.post("../../qrcode/generateQrCodes", function(data){
+			console.log(data);
+			console.log(data.length);
+			while(iterator < data.length){
+				var renderObj = {};
+				for(var i = 0; i< sizeInRow; i++){
+					if(iterator + i >= data.length){
+						break;
+					}
+					renderObj["in" + i] = "/traces" + data[iterator + i].qrcodeInsidesrc;
+					renderObj["out" + i] = "/traces" + data[iterator + i].qrcodeOutsidesrc;
 				}
-				renderObj["in" + i] = CONTROLLER_QRCODE_IN + "/" +qrcodes[iterator + i];
-				renderObj["out" + i] = CONTROLLER_QRCODE_OUT + "/" +qrcodes[iterator + i];
+				iterator += sizeInRow;
+				$paper.append(template.render(renderObj));
 			}
-			iterator += sizeInRow;
-			$paper.append(template.render(renderObj));
-		}
+			
+		});
 	};
 	
 	sample.QRGenPreview.prototype.initAfterBind = function() {
@@ -39,6 +38,8 @@ sample.QRGenPreview = function() {
 	};
 	
 	sample.QRGenPreview.prototype.onCreateQR = function(e){
+		//修改二维码状态
+		
 		$("#preview-confirm").fadeOut("fast", function(){
 			$("#generate-ok").fadeIn();
 			$("#fixed-header .form-wizard .progress-indicator").css("width", "100%");
