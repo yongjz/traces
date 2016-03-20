@@ -50,6 +50,18 @@ public class QuickResponseCodeServiceImpl implements IQuickResponseCodeService {
 	
 	@Override
 	@Transactional(rollbackFor = java.lang.Exception.class)
+	public void updateQrCodeState(String codeStr) {
+		String [] codeArr = codeStr.split(",");
+		QuickResponseCode qrcode = new QuickResponseCode();
+		for(String code:codeArr) {
+			qrcode = qrcodeDAO.selectByOutsideCode(code);
+			qrcode.setQrcodeStatus("00");
+			qrcodeDAO.updateByPrimaryKey(qrcode);
+		}
+	}
+	
+	@Override
+	@Transactional(rollbackFor = java.lang.Exception.class)
 	public List<QuickResponseCode> generateQRCodeList(MerchandisePatch mp, String path, String realpath){
 		List<QuickResponseCode> list = new ArrayList<QuickResponseCode>();
 		

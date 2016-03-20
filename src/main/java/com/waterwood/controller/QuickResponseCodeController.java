@@ -16,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.zxing.BarcodeFormat;
@@ -54,6 +55,19 @@ public class QuickResponseCodeController {
 		List<QuickResponseCode> list = qrcodeService.generateQRCodeList(mp, path, realpath);
 		request.getSession().setAttribute("mer", null);
 		return list;
+	}
+	
+	@RequestMapping("/updateQrCodeState")
+	@ResponseBody
+	public String updateQrCodeState(@RequestParam(value = "qrlist", required = true) String list,
+		HttpServletRequest request, HttpServletResponse response) {
+		try {
+			qrcodeService.updateQrCodeState(list);
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
 	}
 	
 	/**

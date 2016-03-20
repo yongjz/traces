@@ -2,21 +2,24 @@ var sample = sample || {};
 
 sample.QRGenPreview = function() {
 	var self = this;
-
+	var CONTROLLER_QRCODE_IN = "../../qrcode/saveMerchandiseInfo/in";
+	var CONTROLLER_QRCODE_OUT = "../../qrcode/saveMerchandiseInfo/out"
+	
+	var qrlist = [];
+		
 	sample.QRGenPreview.prototype.bindEvents = function() {
 		$("#btn-generate").bind("click", this.onCreateQR);
 		$("#btn-print").bind("click", this.onPrint);
 	};
 
-	sample.QRGenPreview.prototype.initBeforeBind = function() {
+	sample.QRGenPreview.prototype.initBeforeBind = function() {		
 		var $paper = $(".doc-preview-panel .paper");
 		var template =Hogan.compile($("#tmpl-qr-row").html());
 		
 		var iterator = 0;
 		var sizeInRow = 3;
 		$.post("../../qrcode/generateQrCodes", function(data){
-			console.log(data);
-			console.log(data.length);
+			
 			while(iterator < data.length){
 				var renderObj = {};
 				for(var i = 0; i< sizeInRow; i++){
@@ -25,12 +28,34 @@ sample.QRGenPreview = function() {
 					}
 					renderObj["in" + i] = "/traces" + data[iterator + i].qrcodeInsidesrc;
 					renderObj["out" + i] = "/traces" + data[iterator + i].qrcodeOutsidesrc;
+					console.log(data[iterator + i].qrcodeOutsidecode);
+					qrlist.push(data[iterator + i].qrcodeOutsidecode);
 				}
 				iterator += sizeInRow;
+				
 				$paper.append(template.render(renderObj));
 			}
 			
 		});
+		
+//		var qrcodes = [];
+//		for(var i = 0 ;i<25;i++){
+//			qrcodes.push(i);
+//		}
+//		var iterator = 0;
+//		var sizeInRow = 3;
+//		while(iterator < qrcodes.length){
+//			var renderObj = {};
+//			for(var i = 0; i< sizeInRow; i++){
+//				if(iterator + i >= qrcodes.length){
+//					break;
+//				}
+//				renderObj["in" + i] = CONTROLLER_QRCODE_IN + "/" +qrcodes[iterator + i];
+//				renderObj["out" + i] = CONTROLLER_QRCODE_OUT + "/" +qrcodes[iterator + i];
+//			}
+//			iterator += sizeInRow;
+//			$paper.append(template.render(renderObj));
+//		}
 	};
 	
 	sample.QRGenPreview.prototype.initAfterBind = function() {
@@ -38,20 +63,23 @@ sample.QRGenPreview = function() {
 	};
 	
 	sample.QRGenPreview.prototype.onCreateQR = function(e){
+		console.log(qrlist);
 		//修改二维码状态
-		
-		$("#preview-confirm").fadeOut("fast", function(){
-			$("#generate-ok").fadeIn();
-			$("#fixed-header .form-wizard .progress-indicator").css("width", "100%");
-			//Check 3
-			var steps = $("#fixed-header .form-wizard ul li");
-			for(var i = 0 ; i<steps.length;i++){
-				$(steps[i]).addClass("completed").removeClass("active");
-				if(i == 2){
-					$(steps[i]).addClass("active").removeClass("completed");
+		$.post("../../qrcode/updateQrCodeState", { qrlist: qrlist.toString() }, function(data){
+			console.log(data);
+			$("#preview-confirm").fadeOut("fast", function(){
+				$("#generate-ok").fadeIn();
+				$("#fixed-header .form-wizard .progress-indicator").css("width", "100%");
+				//Check 3
+				var steps = $("#fixed-header .form-wizard ul li");
+				for(var i = 0 ; i<steps.length;i++){
+					$(steps[i]).addClass("completed").removeClass("active");
+					if(i == 2){
+						$(steps[i]).addClass("active").removeClass("completed");
+					}
 				}
-			}
-			toastr.success("成功","二维码已经为您生成完毕");
+				toastr.success("成功","二维码已经为您生成完毕");
+			});
 		});
 	};
 	
